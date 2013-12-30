@@ -4,15 +4,18 @@ function! s:titlecase(type, ...) abort
   let g:dem = a:000
 
   if a:0  " Invoked from Visual mode, use '< and '> marks.
-    silent exe "normal! `<" . a:type . "`>y"
-    let titlecased = substitute(@@, '\<\(\w\)\(\w*\)\>', '\u\1\L\2', 'g')
-    silent exe "normal! v`>c" . titlecased
+    if a:type == ''
+      silent exe "normal! `<" . a:type . "`>y"
+      let titlecased = substitute(@@, '\<\(\w\)\(\w*\)\>', '\u\1\L\2', 'g')
+      call setreg('@', titlecased, 'b')
+      silent execute 'normal! ' . a:type . '`>p'
+    else
+      silent exe "normal! `<" . a:type . "`>y"
+      let @i = substitute(@@, '\<\(\w\)\(\w*\)\>', '\u\1\L\2', 'g')
+      silent execute 'normal! ' . a:type . '`>"ip'
+    endif
   elseif a:type == 'line'
     '[,']s/\<\(\w\)\(\w*\)\>/\u\1\L\2/g
-    " silent exe "normal! '[V']y"
-  elseif a:type == 'block'
-    " TODO: Implement blockwise mode titlecasing
-    " silent exe "normal! `[\<C-V>`]y"
   else
     silent exe "normal! `[v`]y"
     let titlecased = substitute(@@, '\<\(\w\)\(\w*\)\>', '\u\1\L\2', 'g')
