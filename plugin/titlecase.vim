@@ -1,3 +1,7 @@
+if !exists('g:titlecase_map_keys')
+  let g:titlecase_map_keys = 1
+endif
+
 function! s:titlecase(type, ...) abort
   let g:type = a:type
   let g:it =  a:0
@@ -27,6 +31,8 @@ xnoremap <silent> <Plug>Titlecase :<C-U> call <SID>titlecase(visualmode(),visual
 nnoremap <silent> <Plug>Titlecase :<C-U>set opfunc=<SID>titlecase<CR>g@
 nnoremap <silent> <Plug>TitlecaseLine :<C-U>set opfunc=<SID>titlecase<Bar>exe 'norm! 'v:count1.'g@_'<CR>
 
-nmap gt <Plug>Titlecase
-vmap gt <Plug>Titlecase
-nmap gT <Plug>TitlecaseLine
+if g:titlecase_map_keys
+  nmap gt <Plug>Titlecase
+  vmap gt <Plug>Titlecase
+  nmap gT <Plug>TitlecaseLine
+endif
