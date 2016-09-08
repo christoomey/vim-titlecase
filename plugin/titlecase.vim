@@ -10,19 +10,19 @@ function! s:titlecase(type, ...) abort
   if a:0  " Invoked from Visual mode, use '< and '> marks.
     if a:type == ''
       silent exe "normal! `<" . a:type . "`>y"
-      let titlecased = substitute(@@, '\<\(\w\)\(\w*\)\>', '\u\1\L\2', 'g')
+      let titlecased = substitute(@@, '\<\(\k\)\(\k*\)\>', '\u\1\L\2', 'g')
       call setreg('@', titlecased, 'b')
       silent execute 'normal! ' . a:type . '`>p'
     else
       silent exe "normal! `<" . a:type . "`>y"
-      let @i = substitute(@@, '\<\(\w\)\(\w*\)\>', '\u\1\L\2', 'g')
+      let @i = substitute(@@, '\<\(\k\)\(\k*\)\>', '\u\1\L\2', 'g')
       silent execute 'normal! ' . a:type . '`>"ip'
     endif
   elseif a:type == 'line'
-    '[,']s/\<\(\w\)\(\w*\)\>/\u\1\L\2/g
+    '[,']s/\<\(\k\)\(\k*\)\>/\u\1\L\2/g
   else
     silent exe "normal! `[v`]y"
-    let titlecased = substitute(@@, '\<\(\w\)\(\w*\)\>', '\u\1\L\2', 'g')
+    let titlecased = substitute(@@, '\<\(\k\)\(\k*\)\>', '\u\1\L\2', 'g')
     silent exe "normal! v`]c" . titlecased
   endif
 endfunction
