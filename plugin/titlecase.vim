@@ -6,23 +6,25 @@ function! s:titlecase(type, ...) abort
   let g:type = a:type
   let g:it =  a:0
   let g:dem = a:000
+  let WORD_PATTERN = '\<\(\k\)\(\k*\)\>'
+  let UPCASE_REPLACEMENT = '\u\1\L\2'
 
   if a:0  " Invoked from Visual mode, use '< and '> marks.
     if a:type == ''
       silent exe "normal! `<" . a:type . "`>y"
-      let titlecased = substitute(@@, '\<\(\k\)\(\k*\)\>', '\u\1\L\2', 'g')
+      let titlecased = substitute(@@, WORD_PATTERN, UPCASE_REPLACEMENT, 'g')
       call setreg('@', titlecased, 'b')
       silent execute 'normal! ' . a:type . '`>p'
     else
       silent exe "normal! `<" . a:type . "`>y"
-      let @i = substitute(@@, '\<\(\k\)\(\k*\)\>', '\u\1\L\2', 'g')
+      let @i = substitute(@@, WORD_PATTERN, UPCASE_REPLACEMENT, 'g')
       silent execute 'normal! ' . a:type . '`>"ip'
     endif
   elseif a:type == 'line'
-    '[,']s/\<\(\k\)\(\k*\)\>/\u\1\L\2/g
+    execute '''[,'']s/'.WORD_PATTERN.'/'.UPCASE_REPLACEMENT.'/g' 
   else
     silent exe "normal! `[v`]y"
-    let titlecased = substitute(@@, '\<\(\k\)\(\k*\)\>', '\u\1\L\2', 'g')
+    let titlecased = substitute(@@, WORD_PATTERN, UPCASE_REPLACEMENT, 'g')
     silent exe "normal! v`]c" . titlecased
   endif
 endfunction
