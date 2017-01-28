@@ -44,5 +44,5 @@ nmap <leader>gT <Plug>TitlecaseLine
 
 ``` vim
 <Plug>Titlecase " Titlecase the region defined by a text object or motion
-<Plug>TitlecaseLine " Titlecase the entir line
+<Plug>TitlecaseLine " Titlecase the entire line
 ```
