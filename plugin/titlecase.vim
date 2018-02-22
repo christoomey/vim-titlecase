@@ -6,7 +6,7 @@ function! s:titlecase(type, ...) abort
   let g:type = a:type
   let g:it =  a:0
   let g:dem = a:000
-  let WORD_PATTERN = '\<\(\k\)\(\k*\)\>'
+  let WORD_PATTERN = '\<\(\k\)\(\k*''*\k*\)\>'
   let UPCASE_REPLACEMENT = '\u\1\L\2'
 
   if a:0  " Invoked from Visual mode, use '< and '> marks.
