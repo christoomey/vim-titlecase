@@ -21,7 +21,7 @@ function! s:titlecase(type, ...) abort
       silent execute 'normal! ' . a:type . '`>"ip'
     endif
   elseif a:type == 'line'
-    execute '''[,'']s/'.WORD_PATTERN.'/'.UPCASE_REPLACEMENT.'/g' 
+    execute '''[,'']s/'.WORD_PATTERN.'/'.UPCASE_REPLACEMENT.'/ge'
   else
     silent exe "normal! `[v`]y"
     let titlecased = substitute(@@, WORD_PATTERN, UPCASE_REPLACEMENT, 'g')
