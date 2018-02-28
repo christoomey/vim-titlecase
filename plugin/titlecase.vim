@@ -9,7 +9,11 @@ function! s:titlecase(type, ...) abort
   let WORD_PATTERN = '\<\(\k\)\(\k*''*\k*\)\>'
   let UPCASE_REPLACEMENT = '\u\1\L\2'
 
-  if a:0  " Invoked from Visual mode, use '< and '> marks.
+  if a:0 == 2 " Invoked from command with range
+    let l:line1 = a:1
+    let l:line2 = a:2
+    silent exe "normal! " . l:line1 . "GV" . l:line2 . "G:\<C-U> call \<SID>titlecase('V', 1)\<CR>"
+  elseif a:0  " Invoked from Visual mode, use '< and '> marks.
     if a:type == ''
       silent exe "normal! `<" . a:type . "`>y"
       let titlecased = substitute(@@, WORD_PATTERN, UPCASE_REPLACEMENT, 'g')
@@ -33,8 +37,12 @@ xnoremap <silent> <Plug>Titlecase :<C-U> call <SID>titlecase(visualmode(),visual
 nnoremap <silent> <Plug>Titlecase :<C-U>set opfunc=<SID>titlecase<CR>g@
 nnoremap <silent> <Plug>TitlecaseLine :<C-U>set opfunc=<SID>titlecase<Bar>exe 'norm! 'v:count1.'g@_'<CR>
 
+command -range Titlecase call <SID>titlecase('V', <line1>, <line2>)
+
 if g:titlecase_map_keys
   nmap gt <Plug>Titlecase
   vmap gt <Plug>Titlecase
   nmap gT <Plug>TitlecaseLine
+  " compatible with eg. yy and cc and gqq
+  nmap gtt <Plug>TitlecaseLine
 endif
