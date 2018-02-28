@@ -37,7 +37,7 @@ xnoremap <silent> <Plug>Titlecase :<C-U> call <SID>titlecase(visualmode(),visual
 nnoremap <silent> <Plug>Titlecase :<C-U>set opfunc=<SID>titlecase<CR>g@
 nnoremap <silent> <Plug>TitlecaseLine :<C-U>set opfunc=<SID>titlecase<Bar>exe 'norm! 'v:count1.'g@_'<CR>
 
-command -range Titlecase call <SID>titlecase('V', <line1>, <line2>)
+command! -range Titlecase call <SID>titlecase('V', <line1>, <line2>)
 
 if g:titlecase_map_keys
   nmap gt <Plug>Titlecase
