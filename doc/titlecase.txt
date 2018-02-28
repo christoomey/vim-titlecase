@@ -1,0 +1,49 @@
+*vim-titlecase* *titlecase.txt*    Commands for titlecasing portions of text
+
+==============================================================================
+Overview
+
+Titlecase is a vim plugin that adds a new |operator| (command that takes a
+text object or motion to act on) for titlecasing text. >
+      this is some text  |  this is Some text
+    method('some args')  |  method('Some Args')
+           a title line  |   A Title Line
+<
+
+==============================================================================
+Mappings                                                  *titlecase-mappings*
+
+                                                        *g:titlecase_map_keys*
+Be default titlecase maps itself to `gt`, but this interferes with the default
+mapping for switching tabs. If you would like to disable the default maps, add
+the following to your vimrc: >
+    let g:titlecase_map_keys = 0
+<
+
+To add other mappings, you can add something like the following to your
+|vimrc|: >
+    "<Plug>Titlecase titlecases the region defined by a text object or motion
+    nmap <leader>gt <Plug>Titlecase
+    vmap <leader>gt <Plug>Titlecase
+    "<Plug>TitlecaseLine titlecases the entire line
+    nmap <leader>gT <Plug>TitlecaseLine
+<
+
+gt{motion}                                                      *titlecase-gt*
+                The `gt` mapping will wait for a |text-object| or |motion|
+                before completing the titlecase operation. This means `gti'`
+                will titlecase inside of single quotes, `gtap` will titlecase
+                a paragraph, etc. |v_gt| will also work on a visual selection.
+
+gT or gtt                                       *titlecase-gtt* *titlecase-gT*
+                Titlecase an entire line.
+
+{Visual}gt                                                              *v_gt*
+                Titlecase the selected text. See |titlecase-gt|.
+
+:[range]Titlecase                                                 *:Titlecase*
+                Titlecase each line in [range], or the current line if [range]
+                is omitted.
+
+==============================================================================
+vim:tw=78:fo=tcq2:syntax=help:

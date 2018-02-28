@@ -19,12 +19,12 @@ titlecase operation. This means `gti'` will titlecase inside of single quotes,
 `gtap` will titlecase a paragraph, etc. `gt` will also work on a visual
 selection.
 
-In addition, `gT` will titlecase the current line.
+In addition, `gT` or `gtt` will titlecase the current line.
 
 Mappings
 --------
 
-Be default titlecase maps itself to `gt`, but this interferes with the default
+By default titlecase maps itself to `gt`, but this interferes with the default
 mapping for switching tabs. If you would like to disable the default maps, add
 the following to your vimrc:
 
