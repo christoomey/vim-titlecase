@@ -1,33 +1,41 @@
 if !exists('g:titlecase_map_keys')
   let g:titlecase_map_keys = 1
-endif
+en
 
-function! s:titlecase(type, ...) abort
+fu! SubaWord() 
+  return suh(@@, WORD_PATTERN, UPCASE_REPLACEMENT, 'g')
+endf
+
+fu! s:titlecase(type, ...) abort
+  " help internal-variables
+  " this sets global variable type to functionargument type
+  " These are passed in just before EOF
   let g:type = a:type
   let g:it =  a:0
   let g:dem = a:000
+  "([A-Za-z])([a-zA-Z']*) start keyword
   let WORD_PATTERN = '\<\(\k\)\(\k*''*\k*\)\>'
   let UPCASE_REPLACEMENT = '\u\1\L\2'
 
   if a:0  " Invoked from Visual mode, use '< and '> marks.
+      sil exe "normal! `<" . a:type . "`>y"
     if a:type == ''
-      silent exe "normal! `<" . a:type . "`>y"
-      let titlecased = substitute(@@, WORD_PATTERN, UPCASE_REPLACEMENT, 'g')
+      let titlecased = SubaWord()
       call setreg('@', titlecased, 'b')
-      silent execute 'normal! ' . a:type . '`>p'
+      sil exe 'normal! ' . a:type . '`>p'
     else
-      silent exe "normal! `<" . a:type . "`>y"
-      let @i = substitute(@@, WORD_PATTERN, UPCASE_REPLACEMENT, 'g')
-      silent execute 'normal! ' . a:type . '`>"ip'
-    endif
+      let @i = SubaWord()
+      sil exe 'normal! ' . a:type . '`>"ip'
+    en
   elseif a:type == 'line'
-    execute '''[,'']s/'.WORD_PATTERN.'/'.UPCASE_REPLACEMENT.'/ge'
+    exe '''[,'']s/'.WORD_PATTERN.'/'.UPCASE_REPLACEMENT.'/ge'
   else
-    silent exe "normal! `[v`]y"
-    let titlecased = substitute(@@, WORD_PATTERN, UPCASE_REPLACEMENT, 'g')
-    silent exe "normal! v`]c" . titlecased
+    sil exe "normal! `[v`]y"
+    let titlecased = SubaWord()
+    sil exe "normal! v`]c" . titlecased
   endif
-endfunction
+endf
+
 
 xnoremap <silent> <Plug>Titlecase :<C-U> call <SID>titlecase(visualmode(),visualmode() ==# 'V' ? 1 : 0)<CR>
 nnoremap <silent> <Plug>Titlecase :<C-U>set opfunc=<SID>titlecase<CR>g@
