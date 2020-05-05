@@ -10,6 +10,8 @@ function! s:titlecase(type, ...) abort
   let UPCASE_REPLACEMENT = '\u\1\L\2'
 
   if a:0  " Invoked from Visual mode, use '< and '> marks.
+    " Back up unnamed register to avoid clobbering its contents
+    let regbak = @@
     if a:type == ''
       silent exe "normal! `<" . a:type . "`>y"
       let titlecased = substitute(@@, WORD_PATTERN, UPCASE_REPLACEMENT, 'g')
@@ -20,6 +22,7 @@ function! s:titlecase(type, ...) abort
       let @i = substitute(@@, WORD_PATTERN, UPCASE_REPLACEMENT, 'g')
       silent execute 'normal! ' . a:type . '`>"ip'
     endif
+    let @@ = regbak
   elseif a:type == 'line'
     execute '''[,'']s/'.WORD_PATTERN.'/'.UPCASE_REPLACEMENT.'/ge'
   else
