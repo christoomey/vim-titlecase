@@ -2,12 +2,37 @@ if !exists('g:titlecase_map_keys')
   let g:titlecase_map_keys = 1
 endif
 
+let s:local_exclusion_list = []
+if exists('g:titlecase_excluded_words')
+    let s:local_exclusion_list = deepcopy(g:titlecase_excluded_words)
+    call map(s:local_exclusion_list, 'tolower(v:val)')
+endif
+
+function! s:capitalize(string)
+    " Don't change intentional all caps
+    if(toupper(a:string) ==# a:string)
+        return a:string
+    endif
+
+    let s = tolower(a:string)
+
+    let exclusions = '^\(a\|an\|and\|as\|at\|but\|by\|en\|for\|if\|in\|nor\|of\|on\|or\|per\|the\|to\|v.?\|vs.?\|via\)$'
+    " Return the lowered string if it matches either the built-in or user exclusion list
+    if (match(s, exclusions) >= 0) || (index(s:local_exclusion_list, s) >= 0)
+        return s
+    endif
+
+    return toupper(s[0]) . s[1:]
+endfunction
+
+
 function! s:titlecase(type, ...) abort
   let g:type = a:type
   let g:it =  a:0
   let g:dem = a:000
   let WORD_PATTERN = '\<\(\k\)\(\k*''*\k*\)\>'
-  let UPCASE_REPLACEMENT = '\u\1\L\2'
+  " calls s:capitalize with the whole pattern match
+  let UPCASE_REPLACEMENT = '\=s:capitalize(submatch(0))'
 
   let regbak = @@
   try
@@ -25,6 +50,9 @@ function! s:titlecase(type, ...) abort
       endif
     elseif a:type == 'line'
       execute '''[,'']s/'.WORD_PATTERN.'/'.UPCASE_REPLACEMENT.'/ge'
+      " Always capitalize the start and end
+      execute '''[,'']s/'.WORD_PATTERN.'/\u\1\L\2/e'
+      execute '''[,'']s/'.WORD_PATTERN.'\(\K*\)$/\u\1\L\2\e\3/e'
     else
       silent exe "normal! `[v`]y"
       let titlecased = substitute(@@, WORD_PATTERN, UPCASE_REPLACEMENT, 'g')
