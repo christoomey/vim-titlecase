@@ -46,3 +46,11 @@ nmap <leader>gT <Plug>TitlecaseLine
 <Plug>Titlecase " Titlecase the region defined by a text object or motion
 <Plug>TitlecaseLine " Titlecase the entire line
 ```
+
+Word Exclusion
+--------------
+The variable `g:titlecase_excluded_words` which can be used to exclude any words of your choice, which will be left untouched. For example:
+
+``` vim
+let g:titlecase_excluded_words = ["thoughtbot"] 
+```
