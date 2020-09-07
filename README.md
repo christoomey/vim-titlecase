@@ -49,7 +49,7 @@ nmap <leader>gT <Plug>TitlecaseLine
 
 Word Exclusion
 --------------
-The variable `g:titlecase_excluded_words` which can be used to exclude any words of your choice, which will be left untouched. For example:
+The variable `g:titlecase_excluded_words` can be used to specify which will be left untouched. For example:
 
 ``` vim
 let g:titlecase_excluded_words = ["thoughtbot"] 
