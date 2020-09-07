@@ -17,9 +17,14 @@ function! s:capitalize(string)
     let s = tolower(a:string)
 
     let exclusions = '^\(a\|an\|and\|as\|at\|but\|by\|en\|for\|if\|in\|nor\|of\|on\|or\|per\|the\|to\|v.?\|vs.?\|via\)$'
-    " Return the lowered string if it matches either the built-in or user exclusion list
-    if (match(s, exclusions) >= 0) || (index(s:local_exclusion_list, s) >= 0)
+    " Return the lowered string if it matches exclusion regex
+    if (match(s, exclusions) >= 0)
         return s
+    endif
+    
+    " Return the original string if it's in the exclusion list
+    if  (index(s:local_exclusion_list, s) >= 0)
+        return a:string 
     endif
 
     return toupper(s[0]) . s[1:]
