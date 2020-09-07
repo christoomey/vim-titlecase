@@ -21,6 +21,30 @@ selection.
 
 In addition, `gT` will titlecase the current line.
 
+Title-Casing Rules
+------------------
+The plugin lowercases all the:
+    * conjunctions
+    * articles
+    * prepositions
+
+It leaves the word as is when:
+    * It is in all caps.
+    * It is specified in the exclusion list `g:titlecase_excluded_words`.
+
+And it capitalizes everything otherwise.
+
+When used from `<Plug>TitlecaseLine` it capitalises the first and last word no matter what.
+
+Caveats
+-------
+The functionality of `<Plug>TitlecaseLine` unfortunately has an edgecase which causes it to
+ignore the exclusion list for the first and last words.
+"the fanciful tales of HTML" will be transformed to "The Fanciful Tales of Html" while in
+"the ins and outs of the SPARC system" the all caps will be respected. (I made these names up on the fly)
+
+The plugin also doesn't take into account that the word after a colon needs to be capitalized.
+
 Mappings
 --------
 
