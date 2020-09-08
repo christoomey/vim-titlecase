@@ -22,10 +22,10 @@ function! s:capitalize(string)
     if (match(s, exclusions) >= 0)
         return s
     endif
-    
+
     " Return the original string if it's in the exclusion list
     if  (index(s:local_exclusion_list, s) >= 0)
-        return a:string 
+        return a:string
     endif
 
     return toupper(s[0]) . s[1:]
