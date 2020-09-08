@@ -17,6 +17,7 @@ function! s:capitalize(string)
     let s = tolower(a:string)
 
     let exclusions = '^\(a\|an\|and\|as\|at\|but\|by\|en\|for\|if\|in\|nor\|of\|on\|or\|per\|the\|to\|v.?\|vs.?\|via\)$'
+
     " Return the lowered string if it matches exclusion regex
     if (match(s, exclusions) >= 0)
         return s
