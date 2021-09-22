@@ -1,3 +1,10 @@
+" autoload/titlecase.vim
+
+if exists('g:autoloaded_titlecase')
+  finish
+endif
+let g:autoloaded_titlecase = 1
+
 let s:titlecase_excluded_words = get(g:, 'titlecase_excluded_words', [])
 let s:local_exclusion_list = deepcopy(s:titlecase_excluded_words)
 call map(s:local_exclusion_list, 'tolower(v:val)')
