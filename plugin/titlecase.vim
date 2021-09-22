@@ -1,3 +1,10 @@
+" plugin/titlecase.vim
+
+if exists('g:loaded_titlecase')
+  finish
+endif
+let g:loaded_titlecase = 1
+
 nnoremap <silent> <Plug>Titlecase
       \ :<C-U>set opfunc=titlecase#titlecase<CR>g@
 xnoremap <silent> <Plug>Titlecase
